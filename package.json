@@ -1,0 +1,24 @@
+{
+  "name": "office-inventory-e2e",
+  "version": "1.0.0",
+  "description": "E2E tests for office inventory system",
+  "scripts": {
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:debug": "playwright test --debug",
+    "test:e2e:report": "playwright show-report",
+    "test:auth": "playwright test e2e/auth.spec.ts",
+    "test:items": "playwright test e2e/items.spec.ts",
+    "test:locations": "playwright test e2e/locations.spec.ts",
+    "test:transactions": "playwright test e2e/transactions.spec.ts",
+    "test:inventory": "playwright test e2e/inventory-reports.spec.ts",
+    "test:workflow": "playwright test e2e/complete-workflow.spec.ts",
+    "test:setup": "playwright install",
+    "test:full": "node e2e/test-runner.js",
+    "test:quick": "node e2e/test-runner.js e2e/auth.spec.ts"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0"
+  }
+}

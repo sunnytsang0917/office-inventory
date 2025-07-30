@@ -1,0 +1,25 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const TransactionController_1 = require("../controllers/TransactionController");
+const upload_1 = require("../middleware/upload");
+const auth_1 = require("../middleware/auth");
+const router = (0, express_1.Router)();
+const transactionController = new TransactionController_1.TransactionController();
+router.post('/', auth_1.authenticateToken, (0, auth_1.requirePermission)('transactions:create'), transactionController.createTransaction);
+router.get('/', auth_1.authenticateToken, (0, auth_1.requirePermission)('transactions:read'), transactionController.getTransactionHistory);
+router.get('/statistics', auth_1.authenticateToken, (0, auth_1.requirePermission)('transactions:read'), transactionController.getTransactionStatistics);
+router.get('/:id', auth_1.authenticateToken, (0, auth_1.requirePermission)('transactions:read'), transactionController.getTransaction);
+router.put('/:id', auth_1.authenticateToken, auth_1.requireAdmin, transactionController.updateTransaction);
+router.delete('/:id', auth_1.authenticateToken, auth_1.requireAdmin, transactionController.deleteTransaction);
+router.post('/inbound', auth_1.authenticateToken, (0, auth_1.requirePermission)('transactions:create'), transactionController.createInboundTransaction);
+router.post('/inbound/batch', auth_1.authenticateToken, (0, auth_1.requirePermission)('transactions:create'), transactionController.createBatchTransactions);
+router.post('/inbound/batch-upload', auth_1.authenticateToken, auth_1.requireAdmin, upload_1.uploadSingle, upload_1.handleUploadError, transactionController.batchInbound);
+router.get('/inbound/template/download', auth_1.authenticateToken, (0, auth_1.requireAnyPermission)(['transactions:create', 'transactions:read']), transactionController.downloadInboundTemplate);
+router.post('/outbound', auth_1.authenticateToken, (0, auth_1.requirePermission)('transactions:create'), transactionController.createOutboundTransaction);
+router.post('/outbound/batch', auth_1.authenticateToken, (0, auth_1.requirePermission)('transactions:create'), transactionController.createBatchTransactions);
+router.post('/outbound/batch-upload', auth_1.authenticateToken, auth_1.requireAdmin, upload_1.uploadSingle, upload_1.handleUploadError, transactionController.batchOutbound);
+router.get('/outbound/template/download', auth_1.authenticateToken, (0, auth_1.requireAnyPermission)(['transactions:create', 'transactions:read']), transactionController.downloadOutboundTemplate);
+router.post('/batch', auth_1.authenticateToken, (0, auth_1.requirePermission)('transactions:create'), transactionController.createBatchTransactions);
+exports.default = router;
+//# sourceMappingURL=transactionRoutes.js.map
